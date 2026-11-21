@@ -1,0 +1,13 @@
+services:
+  server:
+    container_name: maltrail-server
+    build: .
+    command: server.py
+    restart: unless-stopped
+    ports:
+      - "8338:8338/tcp"
+      - "8337:8337/udp"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/maltrail.conf:/opt/maltrail/maltrail.conf:ro"
+      - "/var/log/maltrail:/var/log/maltrail"

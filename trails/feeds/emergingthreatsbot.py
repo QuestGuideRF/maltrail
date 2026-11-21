@@ -1,0 +1,13 @@
+import re
+from core .common import retrieve_content
+__url__ ="https://rules.emergingthreats.net/open/suricata/rules/botcc.rules"
+__check__ ="ЧПУ-сервер"
+__info__ ="сайт потенциального вредоносного ПО"
+__reference__ ="emergingthreats.net"
+def fetch ():
+    retval ={}
+    content =retrieve_content (__url__ )
+    if __check__ in content :
+        for match in re .finditer (r"\d+\.\d+\.\d+\.\d+",content ):
+            retval [match .group (0 )]=(__info__ ,__reference__ )
+    return retval

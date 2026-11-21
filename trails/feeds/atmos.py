@@ -1,0 +1,18 @@
+import re
+from core .common import fetch_headers
+from core .common import retrieve_content
+__url__ ="https://cybercrime-tracker.net/ccam.php"
+__check__ ="Стратегический мониторинг Atmos"
+__info__ ="атмос (вредоносное ПО)"
+__reference__ ="cybercrime-tracker.net"
+def fetch ():
+    retval ={}
+    headers =fetch_headers (__url__ )
+    location =headers .get ("Location","")
+    match =re .search (r"\?(__r=[\w.]+)",location )
+    if match :
+        content =retrieve_content (__url__ ,headers ={"Cookie":match .group (1 )})
+        if __check__ in content :
+            for match in re .finditer (r">([^<]+\.[a-zA-Z]+)</td>\s*<td style=\"background-color: rgb\(11, 11, 11\);\"><a href=\"ccamdetail\.php\?hash=",content ):
+                retval [match .group (1 )]=(__info__ ,__reference__ )
+    return retval
